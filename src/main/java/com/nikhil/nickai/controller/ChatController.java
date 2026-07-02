@@ -1,6 +1,11 @@
 package com.nikhil.nickai.controller;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.nikhil.nickai.dto.ChatRequest;
 import com.nikhil.nickai.dto.ChatResponse;
@@ -19,9 +24,15 @@ public class ChatController {
     @PostMapping
     public ChatResponse chat(@RequestBody ChatRequest request) {
 
-        String answer = service.chat(request.getMessage());
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
-        return new ChatResponse(answer);
+        String email = authentication.getName();
 
+        return service.chat(
+                request.getConversationId(),
+                email,
+                request.getMessage()
+        );
     }
 }

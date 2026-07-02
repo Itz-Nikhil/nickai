@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import com.nikhil.nickai.dto.GroqChoice;
 import com.nikhil.nickai.dto.GroqMessage;
 import com.nikhil.nickai.dto.GroqRequest;
 import com.nikhil.nickai.dto.GroqResponse;
@@ -29,11 +28,9 @@ public class GroqService {
         this.restClient = restClient;
     }
 
-    public String askAI(String prompt) {
+    public String askAI(List<GroqMessage> messages) {
 
-        GroqRequest request = new GroqRequest(
-                model,
-                List.of(new GroqMessage("user", prompt)));
+        GroqRequest request = new GroqRequest(model, messages);
 
         GroqResponse response = restClient.post()
                 .uri(apiUrl)
@@ -48,13 +45,12 @@ public class GroqService {
                 response.getChoices().isEmpty()) {
 
             return "No response from Groq.";
-
         }
 
-        GroqChoice choice = response.getChoices().get(0);
-
-        return choice.getMessage().getContent();
-
+        return response.getChoices()
+                .get(0)
+                .getMessage()
+                .getContent();
     }
 
 }

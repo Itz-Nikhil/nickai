@@ -14,7 +14,7 @@ public class Conversation
 
     private String title;
 
-    private LocalDateTime createdAt;
+	private LocalDateTime createdAt;
     
     private boolean active = true;
 
@@ -56,4 +56,12 @@ public class Conversation
     public void setUser(User user) {
         this.user = user;
     }
+
+    public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }
