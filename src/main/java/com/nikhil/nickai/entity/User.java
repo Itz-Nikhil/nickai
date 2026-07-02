@@ -1,6 +1,9 @@
 package com.nikhil.nickai.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +20,9 @@ public class User
     private String email;
 
     private String password;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Conversation> conversations = new ArrayList<>();
     
     public User()
     {
