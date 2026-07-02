@@ -3,34 +3,39 @@ package com.nikhil.nickai.security;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService
 {
-    private static final String SECRET =
-            "MySecretKeyForNickAIProject2026MySecretKey12345";
+	@Value("${jwt.secret}")
+	private String secret;
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
-
+	@Value("${jwt.expiration}")
+	private long expiration;
+	
+	private Key getSignInKey()
+	{ 
+		return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+	}
+	
     public String generateToken(String email)
     {
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 hours
-                .signWith(key)
+                .expiration(new Date(System.currentTimeMillis() + expiration)) // 24 hours
+                .signWith(getSignInKey())
                 .compact();
     }
 
     public String extractEmail(String token)
     {
         return Jwts.parser()
-                .verifyWith((javax.crypto.SecretKey) key)
+                .verifyWith((javax.crypto.SecretKey) getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
