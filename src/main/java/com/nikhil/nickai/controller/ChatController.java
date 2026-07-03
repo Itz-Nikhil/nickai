@@ -13,26 +13,23 @@ import com.nikhil.nickai.service.ChatService;
 
 @RestController
 @RequestMapping("/chat")
-public class ChatController {
-
+public class ChatController
+{
     private final ChatService service;
 
-    public ChatController(ChatService service) {
+    public ChatController(ChatService service)
+    {
         this.service = service;
     }
 
     @PostMapping
-    public ChatResponse chat(@RequestBody ChatRequest request) {
+    public ChatResponse chat(@RequestBody ChatRequest request)
+    {
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String email = authentication.getName();
 
-        return service.chat(
-                request.getConversationId(),
-                email,
-                request.getMessage()
-        );
+        return service.chat(request.getConversationId(),email,request.getMessage());
     }
 }

@@ -20,14 +20,15 @@ public class UserService
     private final UserRepository repository;
     private final PasswordEncoder encoder;
 
-    public UserService(UserRepository repository,PasswordEncoder encoder,AuthenticationManager authenticationManager, JwtService jwtService)
+    public UserService(UserRepository repository,PasswordEncoder encoder,
+    					AuthenticationManager authenticationManager, JwtService jwtService)
     {
 		this.repository = repository;
 		this.encoder = encoder;
 		this.authenticationManager = authenticationManager;
 		this.jwtService = jwtService;
 	}
-
+    
     public String register(RegisterRequest request)
     {
         Optional<User> user = repository.findByEmail(request.getEmail());
@@ -49,10 +50,9 @@ public class UserService
     public LoginResponse login(LoginRequest request)
     {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        					request.getEmail(),
+                        					request.getPassword()));
 
         String token = jwtService.generateToken(request.getEmail());
 

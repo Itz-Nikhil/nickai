@@ -1,6 +1,7 @@
 package com.nikhil.nickai.entity;
 
-public enum SenderType {
+public enum SenderType
+{
     USER,
     ASSISTANT
 }

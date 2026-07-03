@@ -11,8 +11,8 @@ import com.nikhil.nickai.dto.GroqRequest;
 import com.nikhil.nickai.dto.GroqResponse;
 
 @Service
-public class GroqService {
-
+public class GroqService
+{
     @Value("${groq.api.url}")
     private String apiUrl;
 
@@ -24,33 +24,32 @@ public class GroqService {
 
     private final RestClient restClient;
 
-    public GroqService(RestClient restClient) {
+    public GroqService(RestClient restClient)
+    {
         this.restClient = restClient;
     }
 
-    public String askAI(List<GroqMessage> messages) {
-
+    public String askAI(List<GroqMessage> messages)
+    {
         GroqRequest request = new GroqRequest(model, messages);
 
         GroqResponse response = restClient.post()
-                .uri(apiUrl)
-                .header("Authorization", "Bearer " + apiKey)
-                .header("Content-Type", "application/json")
-                .body(request)
-                .retrieve()
-                .body(GroqResponse.class);
-
-        if (response == null ||
-                response.getChoices() == null ||
-                response.getChoices().isEmpty()) {
-
+						                  .uri(apiUrl)
+						                  .header("Authorization", "Bearer " + apiKey)
+						                  .header("Content-Type", "application/json")
+						                  .body(request)
+						                  .retrieve()
+						                  .body(GroqResponse.class);
+        
+        if (response == null || response.getChoices() == null || response.getChoices().isEmpty())
+        {
             return "No response from Groq.";
         }
 
         return response.getChoices()
-                .get(0)
-                .getMessage()
-                .getContent();
+		               .get(0)
+		               .getMessage()
+		               .getContent();
     }
 
 }

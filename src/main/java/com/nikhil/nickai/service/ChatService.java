@@ -11,60 +11,63 @@ import com.nikhil.nickai.entity.Conversation;
 import com.nikhil.nickai.entity.Message;
 import com.nikhil.nickai.entity.SenderType;
 import com.nikhil.nickai.entity.User;
+import com.nikhil.nickai.exception.UserNotFoundException;
 import com.nikhil.nickai.repository.UserRepository;
 
 @Service
-public class ChatService {
-
+public class ChatService
+{
 	private final GroqService groqService;
 	private final ConversationService conversationService;
 	private final MessageService messageService;
 	private final UserRepository userRepository;
 
 	public ChatService(GroqService groqService,
-            ConversationService conversationService,
-            MessageService messageService,
-            UserRepository userRepository) {
+            		   ConversationService conversationService,
+            		   MessageService messageService,
+            		   UserRepository userRepository)
+	{
+		this.groqService = groqService;
+		this.conversationService = conversationService;
+		this.messageService = messageService;
+		this.userRepository = userRepository;
+	}
 
-							this.groqService = groqService;
-							this.conversationService = conversationService;
-							this.messageService = messageService;
-							this.userRepository = userRepository;
-							}
-
-	public ChatResponse chat(Long conversationId, String email, String prompt) {
-
+	public ChatResponse chat(Long conversationId, String email, String prompt)
+	{
 	    User user = userRepository.findByEmail(email)
-	            .orElseThrow(() -> new RuntimeException("User not found"));
+	    						  .orElseThrow(() ->
+	    						  new UserNotFoundException("User not found"));
 
 	    Conversation conversation;
 
-	    if (conversationId == null) {
-
+	    if (conversationId == null)
+	    {
 	        conversation = conversationService.createConversation(user);
 
-	    } else {
+	        String title = prompt.substring(0, Math.min(prompt.length(), 40));
 
+	        conversation.setTitle(title);
+
+	        conversationService.saveConversation(conversation);
+
+	    }
+	    else
+	    {
 	        conversation = conversationService.getConversation(conversationId);
-
 	    }
 	    
 	    messageService.saveUserMessage(conversation, prompt);
 	    
-	    List<Message> messages =
-	            messageService.getConversationMessages(conversation.getId());
+	    List<Message> messages = messageService.getConversationMessages(conversation.getId());
 	    
 	    List<GroqMessage> groqMessages = new ArrayList<>();
 
-	    for (Message message : messages) {
+	    for (Message message : messages)
+	    {
+	        String role = message.getSender() == SenderType.USER ? "user": "assistant";
 
-	        String role = message.getSender() == SenderType.USER
-	                ? "user"
-	                : "assistant";
-
-	        groqMessages.add(
-	                new GroqMessage(role, message.getContent())
-	        );
+	        groqMessages.add(new GroqMessage(role, message.getContent()));
 	    }
 	    
 	    String answer = groqService.askAI(groqMessages);

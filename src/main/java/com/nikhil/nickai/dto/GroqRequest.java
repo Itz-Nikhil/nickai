@@ -2,32 +2,38 @@ package com.nikhil.nickai.dto;
 
 import java.util.List;
 
-public class GroqRequest {
-
+public class GroqRequest
+{
     private String model;
     private List<GroqMessage> messages;
 
-    public GroqRequest() {
+    public GroqRequest()
+    {
     }
 
-    public GroqRequest(String model, List<GroqMessage> messages) {
+    public GroqRequest(String model, List<GroqMessage> messages)
+    {
         this.model = model;
         this.messages = messages;
     }
 
-    public String getModel() {
+    public String getModel()
+    {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(String model)
+    {
         this.model = model;
     }
 
-    public List<GroqMessage> getMessages() {
+    public List<GroqMessage> getMessages()
+    {
         return messages;
     }
 
-    public void setMessages(List<GroqMessage> messages) {
+    public void setMessages(List<GroqMessage> messages)
+    {
         this.messages = messages;
     }
 }

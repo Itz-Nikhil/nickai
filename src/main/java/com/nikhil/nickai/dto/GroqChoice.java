@@ -1,17 +1,20 @@
 package com.nikhil.nickai.dto;
 
-public class GroqChoice {
-
+public class GroqChoice
+{
     private GroqMessage message;
 
-    public GroqChoice() {
+    public GroqChoice()
+    {
     }
 
-    public GroqMessage getMessage() {
+    public GroqMessage getMessage()
+    {
         return message;
     }
 
-    public void setMessage(GroqMessage message) {
+    public void setMessage(GroqMessage message)
+    {
         this.message = message;
     }
 }

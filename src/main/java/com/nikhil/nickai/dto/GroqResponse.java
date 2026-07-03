@@ -2,18 +2,22 @@ package com.nikhil.nickai.dto;
 
 import java.util.List;
 
-public class GroqResponse {
+public class GroqResponse
+{
 
     private List<GroqChoice> choices;
 
-    public GroqResponse() {
+    public GroqResponse()
+    {
     }
 
-    public List<GroqChoice> getChoices() {
+    public List<GroqChoice> getChoices()
+    {
         return choices;
     }
 
-    public void setChoices(List<GroqChoice> choices) {
+    public void setChoices(List<GroqChoice> choices)
+    {
         this.choices = choices;
     }
 }

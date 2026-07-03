@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="messages")
-public class Message {
-
+public class Message
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,46 +23,57 @@ public class Message {
     @JoinColumn(name="conversation_id")
     private Conversation conversation;
 
-    public Message() {
+    public Message()
+    {
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id){
+    public void setId(Long id)
+    {
         this.id=id;
     }
 
-    public String getContent(){
+    public String getContent()
+    {
         return content;
     }
 
-    public void setContent(String content){
+    public void setContent(String content)
+    {
         this.content=content;
     }
 
-    public SenderType getSender() {
+    public SenderType getSender()
+    {
 		return sender;
 	}
 
-	public void setSender(SenderType sender) {
+	public void setSender(SenderType sender)
+	{
 		this.sender = sender;
 	}
 
-	public LocalDateTime getCreatedAt(){
+	public LocalDateTime getCreatedAt()
+	{
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt){
+    public void setCreatedAt(LocalDateTime createdAt)
+    {
         this.createdAt=createdAt;
     }
 
-    public Conversation getConversation(){
+    public Conversation getConversation()
+    {
         return conversation;
     }
 
-    public void setConversation(Conversation conversation){
+    public void setConversation(Conversation conversation)
+    {
         this.conversation=conversation;
     }
 }

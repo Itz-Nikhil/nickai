@@ -1,31 +1,37 @@
 package com.nikhil.nickai.dto;
 
-public class GroqMessage {
-
+public class GroqMessage
+{
     private String role;
     private String content;
 
-    public GroqMessage() {
+    public GroqMessage()
+    {
     }
 
-    public GroqMessage(String role, String content) {
+    public GroqMessage(String role, String content)
+    {
         this.role = role;
         this.content = content;
     }
 
-    public String getRole() {
+    public String getRole()
+    {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role)
+    {
         this.role = role;
     }
 
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 }

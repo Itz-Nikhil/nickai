@@ -14,13 +14,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.nikhil.nickai.security.JwtAuthenticationFilter;
 
 @Configuration
-public class SecurityConfig {
-
+public class SecurityConfig
+{
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	
-	public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+	public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter)
+	{
 	    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 	}
+	
     @Bean
     PasswordEncoder passwordEncoder()
     {
@@ -34,20 +36,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
-
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS))
-                .addFilterBefore(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
+    {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth ->
+            		auth.requestMatchers("/auth/**").permitAll()
+            			.anyRequest().authenticated())
+            			.sessionManagement(session ->
+            				   session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                					  .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -25,21 +25,21 @@ public class JwtService
     public String generateToken(String email)
     {
         return Jwts.builder()
-                .subject(email)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration)) // 24 hours
-                .signWith(getSignInKey())
-                .compact();
+        		   .subject(email)
+        		   .issuedAt(new Date())
+        		   .expiration(new Date(System.currentTimeMillis() + expiration)) // 24 hours
+        		   .signWith(getSignInKey())
+        		   .compact();
     }
 
     public String extractEmail(String token)
     {
         return Jwts.parser()
-                .verifyWith((javax.crypto.SecretKey) getSignInKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+        		   .verifyWith((javax.crypto.SecretKey) getSignInKey())
+        		   .build()
+        		   .parseSignedClaims(token)
+        		   .getPayload()
+        		   .getSubject();
     }
 
     public boolean isTokenValid(String token, String email)
