@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #111827;
+  color: white;
+}
+
+.login-container {
+  width: 380px;
+  margin: 120px auto;
+  padding: 35px;
+  border-radius: 15px;
+  background: #1f2937;
+  box-shadow: 0 0 20px rgba(0,0,0,.35);
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.login-container button:hover {
+  background: #1d4ed8;
+}
+
+.login-container p {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.login-container a {
+  color: #60a5fa;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.chat-layout{
+    display:flex;
+    height:100vh;
+}
+
+.sidebar{
+    width:280px;
+    background:#1f2937;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.sidebar h2{
+    margin-bottom:20px;
+}
+
+.sidebar button{
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    margin-bottom:25px;
+}
+
+.conversation{
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:8px;
+    background:#374151;
+    cursor:pointer;
+}
+
+.conversation:hover{
+    background:#4b5563;
+}
+
+.chat-box{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.messages{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.input-area{
+    display:flex;
+    padding:20px;
+    gap:10px;
+    border-top:1px solid #374151;
+}
+
+.input-area input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+}
+
+.input-area button{
+    width:120px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
