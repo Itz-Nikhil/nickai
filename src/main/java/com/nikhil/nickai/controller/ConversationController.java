@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nikhil.nickai.entity.Conversation;
+import com.nikhil.nickai.dto.ConversationResponse;
 import com.nikhil.nickai.entity.User;
 import com.nikhil.nickai.repository.UserRepository;
 import com.nikhil.nickai.service.ConversationService;
@@ -27,7 +27,7 @@ public class ConversationController
     }
 
     @GetMapping("/conversations")
-    public List<Conversation> getConversations()
+    public List<ConversationResponse> getConversations()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -35,8 +35,7 @@ public class ConversationController
 
         User user = userRepository.findByEmail(email).orElseThrow();
 
-        return conversationService.getUserConversations(user.getId());
-
+        return conversationService.getUserConversationResponses(user.getId());
     }
     
     @DeleteMapping("/conversations/{id}")

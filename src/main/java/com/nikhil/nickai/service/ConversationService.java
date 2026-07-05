@@ -2,9 +2,11 @@ package com.nikhil.nickai.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.nikhil.nickai.dto.ConversationResponse;
 import com.nikhil.nickai.entity.Conversation;
 import com.nikhil.nickai.entity.User;
 import com.nikhil.nickai.exception.ConversationNotFoundException;
@@ -50,11 +52,27 @@ public class ConversationService
 
     public List<Conversation> getUserConversations(Long userId)
     {
-        return conversationRepository.findByUserId(userId);
+        return conversationRepository.findByUserIdAndActiveTrueOrderByCreatedAtDesc(userId);
     }
     
     public Conversation saveConversation(Conversation conversation)
     {
         return conversationRepository.save(conversation);
+    }
+    
+    public List<ConversationResponse> getUserConversationResponses(Long userId)
+    {
+        return conversationRepository
+                .findByUserIdAndActiveTrueOrderByCreatedAtDesc(userId)
+                .stream()
+                .map(conversation -> new ConversationResponse(
+
+                        conversation.getId(),
+                        conversation.getTitle(),
+                        conversation.getCreatedAt(),
+                        conversation.isActive()
+
+                ))
+                .collect(Collectors.toList());
     }
 }

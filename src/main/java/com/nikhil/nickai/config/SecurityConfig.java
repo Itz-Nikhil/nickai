@@ -1,6 +1,9 @@
 package com.nikhil.nickai.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -28,6 +31,23 @@ public class SecurityConfig
     {
         return new BCryptPasswordEncoder();
     }
+    
+    @Bean
+    CorsConfigurationSource corsConfigurationSource()
+    {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("http://localhost:5174");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
@@ -38,13 +58,13 @@ public class SecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-        http.csrf(csrf -> csrf.disable())
+        http.cors(cors -> {}).csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth ->
             		auth.requestMatchers("/auth/**").permitAll()
             			.anyRequest().authenticated())
-            			.sessionManagement(session ->
-            				   session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                					  .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
+            .sessionManagement(session ->
+            		session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                		.addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

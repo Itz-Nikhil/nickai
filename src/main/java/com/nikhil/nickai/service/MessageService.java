@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.nikhil.nickai.dto.MessageResponse;
 import com.nikhil.nickai.entity.Conversation;
 import com.nikhil.nickai.entity.Message;
 import com.nikhil.nickai.entity.SenderType;
@@ -42,8 +43,24 @@ public class MessageService
         return messageRepository.save(message);
     }
 
+    
     public List<Message> getConversationMessages(Long conversationId)
     {
-        return messageRepository.findByConversationId(conversationId);
+        return messageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId);
+    }
+    
+    
+    public List<MessageResponse> getConversationMessageResponses(Long conversationId)
+    {
+        return messageRepository
+                .findByConversationIdOrderByCreatedAtAsc(conversationId)
+                .stream()
+                .map(message -> new MessageResponse(
+                        message.getId(),
+                        message.getContent(),
+                        message.getSender(),
+                        message.getCreatedAt()
+                ))
+                .toList();
     }
 }

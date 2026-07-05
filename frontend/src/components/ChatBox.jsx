@@ -1,4 +1,48 @@
-function ChatBox() {
+import { useEffect, useRef, useState } from "react";
+import { getMessages } from "../services/chatService";
+import Message from "./Message";
+
+function ChatBox({ selectedConversation }) {
+
+    const [messages, setMessages] = useState([]);
+	
+	const messagesEndRef = useRef(null);
+	
+	useEffect(() => {
+
+	    messagesEndRef.current?.scrollIntoView({
+
+	        behavior: "smooth"
+
+	    });
+
+	}, [messages]);
+
+    useEffect(() => {
+
+        if (selectedConversation) {
+            loadMessages();
+        } else {
+            setMessages([]);
+        }
+
+    }, [selectedConversation]);
+
+    async function loadMessages() {
+
+        try {
+
+            const response = await getMessages(selectedConversation.id);
+
+            setMessages(response.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
 
     return (
 
@@ -6,21 +50,27 @@ function ChatBox() {
 
             <div className="messages">
 
-                <h1>Welcome to NickAI 👋</h1>
+			{
+			    messages.map(message => (
+			        <Message
+			            key={message.id}
+			            message={message}
+			        />
+			    ))
+			}
+			
+			<div ref={messagesEndRef}></div>
 
             </div>
 
             <div className="input-area">
 
                 <input
-                    type="text"
                     placeholder="Ask anything..."
                 />
 
                 <button>
-
                     Send
-
                 </button>
 
             </div>

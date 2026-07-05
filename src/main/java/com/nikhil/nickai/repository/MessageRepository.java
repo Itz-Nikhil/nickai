@@ -6,5 +6,5 @@ import com.nikhil.nickai.entity.Message;
 
 public interface MessageRepository extends JpaRepository<Message,Long>
 {
-    List<Message> findByConversationId(Long conversationId);
+	List<Message> findByConversationIdOrderByCreatedAtAsc(Long conversationId);
 }

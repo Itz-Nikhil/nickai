@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { getConversations } from "../services/chatService";
 
-function Sidebar() {
+function Sidebar({
+    selectedConversation,
+    setSelectedConversation
+}) {
 
     const [conversations, setConversations] = useState([]);
 
@@ -37,17 +40,20 @@ function Sidebar() {
 
             <button>+ New Chat</button>
 
-			<h3>Total: {conversations.length}</h3>
-
 			{
 			    conversations.map((conversation) => (
 
-			        <div
-			            key={conversation.id}
-			            className="conversation"
-			        >
-			            {conversation.title}
-			        </div>
+					<div
+					    key={conversation.id}
+					    className={
+					        selectedConversation?.id === conversation.id
+					            ? "conversation active"
+					            : "conversation"
+					    }
+					    onClick={() => setSelectedConversation(conversation)}
+					>
+					    {conversation.title}
+					</div>
 
 			    ))
 			}
